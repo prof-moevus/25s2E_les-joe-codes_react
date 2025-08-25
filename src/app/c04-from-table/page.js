@@ -1,5 +1,4 @@
 //Mock from DB
-
 const products = [
     {id:1, category: "Fruits", price: "$2", stocked: false, name: "Passionfruit"},
     {id:2,category: "Vegetables", price: "$2", stocked: true, name: "Spinach"},
