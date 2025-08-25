@@ -1,11 +1,16 @@
 //Mock from DB
-import {red} from "next/dist/lib/picocolors";
 
 const products = [
     {id:1, category: "Fruits", price: "$2", stocked: false, name: "Passionfruit"},
     {id:2,category: "Vegetables", price: "$2", stocked: true, name: "Spinach"},
     {id:3,category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin"},
-    {id:4,category: "Vegetables", price: "$1", stocked: true, name: "Peas"}
+    {id:4, category: "Vegetables", price: "$1", stocked: true, name: "Peas"},
+    {id:5, category: "Fruits", price: "$1", stocked: true, name: "Apple" },
+    {id:6, category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit" },
+    {id:7, category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },
+    {id:8, category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },
+    {id:9, category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
+    {id:10, category: "Vegetables", price: "$1", stocked: true, name: "Peas" }
 ];
 
 
@@ -24,12 +29,11 @@ export default function Products() {
 
             </div>
         </div>
-
     )
 }
 
-function Product(props) {
-    const product = props.product;
+function Product({product}) {
+    // const product = props.product;
     return (
         <div id={"product"} className={"ring-1 p-3 w-[12rem] bg-slate-400"}>
             <h3 className="ma-1 text-xl font-bold mb-2">{product.name}</h3>
