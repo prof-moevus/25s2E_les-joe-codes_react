@@ -9,7 +9,9 @@ const products = [
     {id:7, category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },
     {id:8, category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },
     {id:9, category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
-    {id:10, category: "Vegetables", price: "$1", stocked: true, name: "Peas" }
+    {id:10, category: "Vegetables", price: "$1", stocked: true, name: "Peas" },
+    {id:11, category: "Vegetables", price: "$100", stocked: true, name: "Truffes" }
+
 ];
 
 
@@ -36,7 +38,14 @@ function Product({product}) {
     return (
         <div id={"product"} className={"ring-1 p-3 w-[12rem] bg-slate-400"}>
             <h3 className="ma-1 text-xl font-bold mb-2">{product.name}</h3>
-            <p className={product.stocked ? "text-slate-100" : "text-red-500"}>Prix {product.price}</p>
-        </div>
+            {
+                Number(product.price.slice(1)) >= 4 &&
+                <p className={product.stocked ? "text-slate-100" : "text-red-500"}>Prix reduit {product.price
+                }</p>
+                ||
+                <p className={product.stocked ? "text-slate-100" : "text-red-500"}>Prix {product.price
+                }</p>
+            }
+            </div>
     )
 }
