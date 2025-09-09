@@ -10,8 +10,10 @@ export default function Pokedex() {
 
     // Fetch du Pokémon quand l'ID change
     useEffect(() => {
-        setLoading(true);
-        fetchPokemonWith()
+        // Force une valeur de pokeID si l'utilisateur entre une valeure erronée
+        if (pokemonId < 1 || pokemonId > 1025) {
+            setPokemonId(1)
+        }
         const fetchPokemon = async () => {
             setLoading(true);
 
@@ -25,7 +27,6 @@ export default function Pokedex() {
                 setLoading(false);
             }
         };
-    }, [pokeID]);
 
         // on met un lag pour ne pas lancer le fetch tout de suite. En prod 500, pour debug 1500
         const debounceTimer = setTimeout(fetchPokemon, 1500)
