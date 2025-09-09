@@ -4,45 +4,32 @@ import {useEffect, useState} from "react";
 export default function Pokedex() {
     const [pokemon, setPokemon] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [pokeID, setPokeID] = useState(25);
+    const [pokemonId, setPokemonId] = useState(25);
 
-    function getNewPokemon() {
-        const id = Math.floor(Math.random() * 1010) + 1
-        setPokeID(id);
-        console.log("getNewPokemon " + id);
-
-    }
-
-    function fetchPokemonWith() {
-        setLoading(true);
-
-        setTimeout(() => {
-            fetch(`https://pokeapi.co/api/v2/pokemon/${pokeID}`)
-                .then(response => response.json())
-                .then(pokemon => {
-                    console.log(`DB 89234 : ${pokemon.name}`)
-                    setPokemon(pokemon);
-                    setLoading(false);
-                });
-        }, 1000);
-    }
-
-
+    // Fetch du Pokémon quand l'ID change
     useEffect(() => {
         setLoading(true);
         fetchPokemonWith()
+        const fetchPokemon = async () => {
+            setLoading(true);
 
-        return () => {
-             setPokemon(null);
+            try {
+                const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+                const data = await response.json();
+                setPokemon(data);
+            } catch (error) {
+                console.error('Erreur:', error);
+            } finally {
+                setLoading(false);
+            }
         };
     }, [pokeID]);
 
-
-    if (loading) {
-        return (
-            <h1>⏳ Chargement...</h1>
-        )
-    }
+        // on met un lag pour ne pas lancer le fetch tout de suite. En prod 500, pour debug 1500
+        const debounceTimer = setTimeout(fetchPokemon, 1500)
+        // cleanup : si pokeId change on vient nettoyer (supprimer) le timer, le fetch va être annuler
+        return () => {console.log("DB pokedex clean up " + debounceTimer); clearTimeout(debounceTimer)};
+    }, [pokemonId]);
 
     return (
         <>
