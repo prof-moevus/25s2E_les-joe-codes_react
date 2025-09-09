@@ -1,6 +1,8 @@
-"use client";
-import {useEffect, useState} from "react";
+'use client';
 
+import {useState, useEffect} from 'react';
+
+// Composant principal
 export default function Pokedex() {
     const [pokemon, setPokemon] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -32,30 +34,74 @@ export default function Pokedex() {
     }, [pokemonId]);
 
     return (
-        <>
-            <h1 className={"text-slate-100"}>Pokédex avec useEffect</h1>
-            {pokemon && <PokemonCard pokemon={pokemon}/>}
-            <button onClick={getNewPokemon}> RESET</button>
-        </>
-    )
+        <div className="min-h-screen bg-blue-100 p-8">
+            <div className="max-w-2xl mx-auto">
+
+                <h1 className="text-4xl font-bold text-center mb-8">Pokédex</h1>
+                {/* Contrôles */}
+                <div className="bg-white rounded-lg p-4 mb-8 flex items-center justify-center gap-4">
+
+                    <button
+                        onClick={() => setPokemonId(prev => Math.max(1, prev - 1))}
+                        disabled={pokemonId <= 1 || loading}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300"
+                    >
+                        ← Précédent
+                    </button>
+
+                    <input
+                        type="number"
+                        value={pokemonId}
+                        onChange={(e) => setPokemonId(Number(e.target.value))}
+                        min="1"
+                        max="1025"
+                        className="w-20 px-3 py-2 border rounded text-center"
+                    />
+
+                    <button
+                        onClick={() => setPokemonId(prev => Math.min(1025, prev + 1))}
+                        disabled={pokemonId >= 1025 || loading}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300"
+                    >
+                        Suivant →
+                    </button>
+
+                </div>
+
+                {/* Affichage */}
+                <div className="flex justify-center">
+                    {loading ? (
+                        <p className="text-xl">Chargement...</p>
+                    ) : (
+                        pokemon && <PokemonCard pokemon={pokemon}/>
+                    )}
+                </div>
+
+            </div>
+        </div>
+    );
 }
 
-function PokemonCard({pokemon}) {
 
+// Composant carte Pokémon
+function PokemonCard({pokemon}) {
     return (
-        <div className="bg-orange-200 w-1/3 h-1/2 p-3">
-            <h3 className="text-xl font-bold uppercase text-center">
-                {pokemon.name}
-            </h3>
-            <div className="ring-1 ring-blue-500">
-                <img
-                    src={pokemon.sprites.front_default}
-                    alt={pokemon.name}
-                    style={{width: '150px'}}
-                />
+        <div className="bg-orange-200 w-full max-w-md p-3 rounded-lg shadow-lg">
+            <h2 className="text-xl font-bold text-center capitalize mb-1">
+                #{pokemon.id} - {pokemon.name}
+            </h2>
+
+            <img
+                src={pokemon.sprites.front_default}
+                alt={pokemon.name}
+                className="w-24 mx-auto"
+            />
+
+            <div className="mt-2 space-y-1">
+                <p><strong>Taille:</strong> {pokemon.height / 10} m</p>
+                <p><strong>Poids:</strong> {pokemon.weight / 10} kg</p>
+                <p><strong>Types:</strong> {pokemon.types.map(t => t.type.name).join(', ')}</p>
             </div>
-            <p>Numéro : #{pokemon.id}</p>
-            <p>Poids : {pokemon.weight / 10} kg</p>
         </div>
-    )
+    );
 }
