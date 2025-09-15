@@ -16,6 +16,7 @@ export default function Pokedex() {
         }
         const fetchPokemon = async () => {
             setLoading(true);
+            console.log("DB FETCH CALLED " + debounceTimer)
 
             try {
                 const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
