@@ -25,7 +25,7 @@ export default function Pokedex() {
             } catch (error) {
                 console.error('Erreur:', error);
             } finally {
-                setLoading(false);
+                setTimeout( () => setLoading(false), 500);
             }
         };
 
